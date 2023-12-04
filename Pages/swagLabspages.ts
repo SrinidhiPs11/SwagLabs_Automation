@@ -2,7 +2,7 @@ import { Locator, Page } from "@playwright/test";
 
 export default class locator {
   constructor(public page: Page) {}
-  pagetitle = () =>this.page.locator("//*[@class='app_logo']") as Locator;
+  swaglabtitle = () =>this.page.locator("//*[@class='app_logo']") as Locator;
 
   //Login Page
   loginForm = () => this.page.locator("//*[@class='form_column']") as Locator;
@@ -12,12 +12,15 @@ export default class locator {
 
 
   //Home or landing page
-  inventoryItem = (x:number) =>this.page.locator("(//*[@class='inventory_item'])["+x+"]") as Locator
+  singleInventoryItem = (x:number) =>this.page.locator("(//*[@class='inventory_item'])["+x+"]") as Locator
+  allInventoryItem = () =>this.page.locator("//*[@class='inventory_list']") as Locator
   inventory_list = () =>this.page.locator("//*[@class='inventory_list']") as Locator
   inventory_item_name  = (text:string) =>this.page.locator("//*[contains(@class, 'inventory_item_name ') and text() = '"+text+"']") as Locator
   inventory_item_price  = (text:string) =>this.page.locator("//*[text()='"+text+"']//ancestor::div[@class='inventory_item_description']//*[@class='inventory_item_price']") as Locator
   inventory_item_desc  = (text:string) =>this.page.locator("//*[text()='"+text+"']//ancestor::div[@class='inventory_item_description']//*[@class='inventory_item_desc']") as Locator
   inventory_addToCart  = (text:string) =>this.page.locator("//*[text()='"+text+"']//ancestor::div[@class='inventory_item_description']//*[text()='Add to cart']") as Locator
+  inventory_Item_removebutton = (text:string) =>this.page.locator("//*[text()='"+text+"']//ancestor::div[@class='inventory_item']//*[text()='Remove']") as Locator
+
   cart = () =>this.page.locator("//*[@class='shopping_cart_link']") as Locator
   sortButton = () =>this.page.locator("//*[@class='product_sort_container']") as Locator
   openMenu = () =>this.page.locator("//*[text()='Open Menu']") as Locator
@@ -27,13 +30,13 @@ export default class locator {
 
 
   //Product page
-  itemName = () =>this.page.locator("//*[contains(@class,'inventory_details_name')]") as Locator
-  itemprice = () =>this.page.locator("//*[@class='inventory_details_price']") as Locator
+  productName = () =>this.page.locator("//*[contains(@class,'inventory_details_name')]") as Locator
+  productPrice = () =>this.page.locator("//*[@class='inventory_details_price']") as Locator
   addToCart = () =>this.page.locator("//*[text()='Add to cart']") as Locator
   item_img = () =>this.page.locator("//*[@class='inventory_details_img']") as Locator
   backToProducts = () =>this.page.locator("//*[@id='back-to-products']") as Locator
-  removebutton = (text:string) =>this.page.locator("//*[text()='"+text+"']//ancestor::div[@class='inventory_item']//*[text()='Remove']") as Locator
-  description = () =>this.page.locator("//*[contains(@class,'inventory_details_desc')]") as Locator
+  removebutton = () =>this.page.locator("//*[text()='Remove']") as Locator
+  productDescription = () =>this.page.locator("//*[@class='inventory_details_desc large_size']") as Locator
   
   
   //yourcart page

@@ -7,10 +7,10 @@ export default class productsPagehelper {
 
   locator = new locator(this.page);
 
-  async verifyPageTitle() {
+  async verifySwaglabTitle() {
     await this.page.waitForTimeout(2000);
     let pageTitle: string | null;
-    pageTitle = await this.locator.pagetitle().textContent();
+    pageTitle = await this.locator.swaglabtitle().textContent();
     expect(pageTitle).toEqual("Swag Labs");
   }
 
@@ -34,6 +34,12 @@ export default class productsPagehelper {
     await this.locator.inventory_item_name(productname).isVisible();
     await this.locator.inventory_item_name(productname).click();
   }
+  //product page add to cart button click
+  async clickAddtoCartBtn() {
+    await this.locator.addToCart().isVisible();
+    await this.locator.addToCart().click();
+  }
+
   async ProductAddToCart(productname: string) {
     await this.locator.inventory_addToCart(productname).isVisible();
     await this.locator.inventory_addToCart(productname).click();
@@ -51,6 +57,14 @@ export default class productsPagehelper {
       .inventory_item_desc(productname)
       .textContent();
     expect(exp_description).toBe(description);
+  }
+  async verifyallProductsVisible() {
+    await this.locator.allInventoryItem().waitFor({ state: "visible" });
+    await this.locator.allInventoryItem().isVisible();
+  }
+  async verifyPaticularProductVisible(x: number) {
+    await this.locator.singleInventoryItem(x).waitFor({ state: "visible" });
+    await this.locator.singleInventoryItem(x).isVisible();
   }
 
   async clickCartIcon() {
@@ -79,7 +93,7 @@ export default class productsPagehelper {
     await this.locator.cart_item_desc(productname).isVisible();
     await this.locator.cart_item_price(productname).isVisible();
     let exp_description = await this.locator
-      .inventory_item_desc(productname)
+      .cart_item_desc(productname)
       .textContent();
     let exp_price = await this.locator
       .cart_item_price(productname)
@@ -91,6 +105,10 @@ export default class productsPagehelper {
   async clickRemovebtn(productname: string) {
     await this.locator.cart_removebtn(productname).isVisible();
     await this.locator.cart_removebtn(productname).click();
+  }
+  async verifyRemovebtnVisible() {
+    await this.locator.removebutton().waitFor({ state: "visible" });
+    await this.locator.removebutton().isVisible();
   }
 
   async clickCheckout() {
@@ -148,7 +166,10 @@ export default class productsPagehelper {
       totalprice = totalprice + price;
     }
     let dispPrice = parseFloat(
-      String(await this.locator.finaltotal().textContent()).replace("Total: $", "")
+      String(await this.locator.finaltotal().textContent()).replace(
+        "Total: $",
+        ""
+      )
     );
     let tax = parseFloat(
       String(await this.locator.tax().textContent()).replace("Tax: $", "")
@@ -157,19 +178,37 @@ export default class productsPagehelper {
     expect(dispPrice.toFixed(2)).toBe(calculatedprice.toFixed(2));
   }
 
-  async orderConfirmationPage(){
-    expect(await this.locator.pgtitle().textContent()).toBe("Checkout: Complete!")
+  async orderConfirmationPage() {
+    expect(await this.locator.pgtitle().textContent()).toBe(
+      "Checkout: Complete!"
+    );
     await this.locator.msgheader().isVisible();
     await this.locator.msgtext().isVisible();
     await this.locator.goHomebtn().isVisible();
-    expect(await this.locator.msgheader().textContent()).toBe("Thank you for your order!")
-    expect(await this.locator.msgtext().textContent()).toBe("Your order has been dispatched, and will arrive just as fast as the pony can get there!")
+    expect(await this.locator.msgheader().textContent()).toBe(
+      "Thank you for your order!"
+    );
+    expect(await this.locator.msgtext().textContent()).toBe(
+      "Your order has been dispatched, and will arrive just as fast as the pony can get there!"
+    );
   }
 
-  async clickGoHomebtn(){
+  async clickGoHomebtn() {
     await this.locator.goHomebtn().click();
   }
-  async clickFinish(){
+  async clickFinish() {
     await this.locator.finishbtn().click();
+  }
+  async verifyProductDetailsInProductPage(
+    productname: string,
+    description: string,
+    price: string
+  ) {
+    let productName = await this.locator.productName().textContent();
+    let productDesc = await this.locator.productDescription().textContent();
+    let productprice = await this.locator.productPrice().textContent();
+    expect(productName).toBe(productname);
+    expect(productDesc).toBe(description);
+    expect(productprice).toBe(price);
   }
 }
