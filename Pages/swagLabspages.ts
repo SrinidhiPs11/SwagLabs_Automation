@@ -23,11 +23,17 @@ export default class locator {
 
   cart = () =>this.page.locator("//*[@class='shopping_cart_link']") as Locator
   sortButton = () =>this.page.locator("//*[@class='product_sort_container']") as Locator
+  //menu items
   openMenu = () =>this.page.locator("//*[text()='Open Menu']") as Locator
   allItemsbtn = () =>this.page.locator("//*[text()='All Items']") as Locator
   aboutbtn = () =>this.page.locator("//*[text()='About']") as Locator
   logoutbtn = () =>this.page.locator("//*[text()='Logout']") as Locator
-
+  //Footer icons 
+  twitter = () =>this.page.locator("//*[text()='Twitter']") as Locator
+  Facebook = () =>this.page.locator("//*[text()='Facebook']") as Locator
+  LinkedIn = () =>this.page.locator("//*[text()='LinkedIn']") as Locator
+  footerText = () =>this.page.locator("//*[@class='footer_copy']") as Locator  
+  
 
   //Product page
   productName = () =>this.page.locator("//*[contains(@class,'inventory_details_name')]") as Locator

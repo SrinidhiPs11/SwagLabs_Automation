@@ -1,6 +1,7 @@
 import { test, expect } from "../POMObject//ElementsPOMObject";
 import locator from "../Pages/swagLabspages";
 import testdata from "../testdata/products.json";
+import productsPagehelper from "../HelperClasses/productsPageHelper";
 
 test("Verify_Products_visible", async ({
   page,
@@ -78,4 +79,40 @@ test("Adding Single item to cart", async ({
   await productsPagehelper.clickMenuIcon();
   await productsPagehelper.clickLogout();
   await page.close();
+});
+
+test("footer Link validations ", async ({
+  page,
+  loginHelper,productsPagehelper,context
+}) => {
+  //Twitter
+  await productsPagehelper.VerifyFooterLinks();
+  let pagePromise = context.waitForEvent('page');
+  await productsPagehelper.clickTwitter();
+  let newPage = await pagePromise;
+  await newPage.waitForLoadState();
+  await page.waitForTimeout(3000);
+  let title = await newPage.title()
+  expect(title).toBe("Sauce Labs (@saucelabs) / X")
+  newPage.close()
+  //facebook
+  pagePromise = context.waitForEvent('page');
+  await productsPagehelper.ClickFacebook()
+  newPage = await pagePromise;
+  await newPage.waitForLoadState();
+  await page.waitForTimeout(3000);
+  title = await newPage.title()
+  expect(title).toContain("Sauce Labs")
+  expect(title).toContain("Facebook")
+  newPage.close()
+  //LinkedIN
+  pagePromise = context.waitForEvent('page');
+  await productsPagehelper.clickLinkedIN()
+  newPage = await pagePromise;
+  await newPage.waitForLoadState();
+  await page.waitForTimeout(3000);
+  title = await newPage.title()
+  expect(title).toBe("Sauce Labs | LinkedIn")
+  newPage.close()
+  page.close()
 });

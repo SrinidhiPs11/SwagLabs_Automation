@@ -1,4 +1,4 @@
-import { test, Page, expect } from "@playwright/test";
+import { test, Page, expect,Browser } from "@playwright/test";
 import locator from "../Pages/swagLabspages";
 import testdata from "../testdata/products.json";
 
@@ -12,6 +12,11 @@ export default class productsPagehelper {
     let pageTitle: string | null;
     pageTitle = await this.locator.swaglabtitle().textContent();
     expect(pageTitle).toEqual("Swag Labs");
+  }
+  async getpagetitle() {
+    await this.page.waitForTimeout(3000)
+    let title = await this.page.evaluate("document.title");
+    return title;
   }
 
   async clickMenuIcon() {
@@ -84,6 +89,28 @@ export default class productsPagehelper {
     }
   }
 
+  async VerifyFooterLinks(){
+    await this.locator.twitter().isVisible();
+    await this.locator.Facebook().isVisible();
+    await this.locator.LinkedIn().isVisible();
+    await this.locator.footerText().isVisible();
+    let footertext =  await this.locator.footerText().textContent();
+    expect(footertext).toBe("© 2023 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy");
+
+  }
+  async clickTwitter(){
+    await this.locator.twitter().waitFor({state: 'visible'})
+    await this.locator.twitter().click();
+  }
+  async ClickFacebook(){
+    await this.locator.Facebook().waitFor({state: 'visible'})
+    await this.locator.Facebook().click();
+  }
+  async clickLinkedIN(){
+    await this.locator.LinkedIn().waitFor({state: 'visible'})
+    await this.locator.LinkedIn().click();
+  }
+  
   async verifyProductInCart(
     productname: string,
     description: string,
@@ -204,6 +231,10 @@ export default class productsPagehelper {
     description: string,
     price: string
   ) {
+    await this.locator.productName().isVisible();
+    await this.locator.productDescription().isVisible();
+    await this.locator.productPrice().isVisible();
+    await this.locator.item_img().isVisible();
     let productName = await this.locator.productName().textContent();
     let productDesc = await this.locator.productDescription().textContent();
     let productprice = await this.locator.productPrice().textContent();
