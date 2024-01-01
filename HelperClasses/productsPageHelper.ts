@@ -95,7 +95,7 @@ export default class productsPagehelper {
     await this.locator.LinkedIn().isVisible();
     await this.locator.footerText().isVisible();
     let footertext =  await this.locator.footerText().textContent();
-    expect(footertext).toBe("© 2023 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy");
+    expect(footertext).toBe("© 2024 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy");
 
   }
   async clickTwitter(){
